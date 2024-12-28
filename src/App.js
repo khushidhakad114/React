@@ -1,14 +1,14 @@
-import './App.css';
-
-import FirstComponent from './components/FirstComponent';
+import "./App.css";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div className="App flex">
-        <div>hi</div>
-        <div>
-           <FirstComponent />
-        </div>
+    <div className="App">
+      <div>
+        <Navbar />
+        <Footer />
+      </div>
     </div>
   );
 }
