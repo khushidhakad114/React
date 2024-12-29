@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 
-const RestaurantFooter = () => {
+const Footer = () => {
   return (
     <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10 mt-auto fixed bottom-0">
       <aside>
@@ -86,4 +86,4 @@ const RestaurantFooter = () => {
   );
 };
 
-export default RestaurantFooter;
+export default Footer;
