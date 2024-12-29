@@ -2,16 +2,15 @@ import React from "react";
 import { useState } from "react";
 
 const Login = () => {
-  const [login, setlogin] = useState(false);
+  const [login, setlogin] = useState(false); //login =>false=> login , login => true=> signup
   const handleLogin = () => {
-    console.log("inside function");
     setlogin(!login);
   };
   return (
-    <div className="flex justify-center items-center p-5">
+    <div className="flex justify-center items-center p-7">
       <div className="card bg-base-100 w-96 shadow-2xl">
         <div className="card-body">
-          <h2 className="card-title">{login}</h2>
+          <h2 className="card-title">{!login ? "Login" : "SignUp"}</h2>
           <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -52,8 +51,11 @@ const Login = () => {
           </label>
           <div className="card-actions justify-center">
             <button className="btn btn-primary" onClick={handleLogin}>
-              Login
+              {!login ? "Login" : "SignUp"}
             </button>
+            <p>
+              {!login ? "Don't have an account" : "Already have an account"}
+            </p>
           </div>
         </div>
       </div>
