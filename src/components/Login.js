@@ -10,7 +10,9 @@ const Login = () => {
     <div className="flex justify-center items-center p-7">
       <div className="card bg-base-100 w-96 shadow-2xl">
         <div className="card-body">
-          <h2 className="card-title">{!login ? "Login" : "SignUp"}</h2>
+          <h2 className="card-title flex justify-center items-center">
+            {!login ? "Login" : "SignUp"}
+          </h2>
           <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -50,11 +52,13 @@ const Login = () => {
             <input type="password" className="grow" placeholder="Password" />
           </label>
           <div className="card-actions justify-center">
-            <button className="btn btn-primary" onClick={handleLogin}>
+            <button className="btn btn-primary">
               {!login ? "Login" : "SignUp"}
             </button>
-            <p>
-              {!login ? "Don't have an account" : "Already have an account"}
+          </div>
+          <div className="text-center cursor-pointer">
+            <p onClick={handleLogin}>
+              {!login ? "Don't have an account?" : "Already have an account"}
             </p>
           </div>
         </div>
