@@ -9,7 +9,7 @@ import { faUtensils } from "@fortawesome/free-solid-svg-icons";
 
 const Footer = () => {
   return (
-    <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10 mt-auto fixed bottom-0">
+    <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10 mt-auto">
       <aside>
         <FontAwesomeIcon
           icon={faUtensils}

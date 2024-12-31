@@ -2,17 +2,50 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Login from "./components/Login";
+import Home from "./components/Home";
+import About from "./components/About";
+import Restaurant from "./components/Restaurant";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
-function App() {
+function AppLayout() {
   return (
     <div className="App">
       <div>
         <Navbar />
-        <Login />
+        <Outlet />
         <Footer />
       </div>
     </div>
   );
+}
+
+const Router = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Login />,
+      },
+      {
+        path: "/home",
+        element: <Home />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/restaurants",
+        element: <Restaurant />,
+      },
+    ],
+  },
+]);
+
+function App() {
+  return <RouterProvider router={Router}></RouterProvider>;
 }
 
 export default App;

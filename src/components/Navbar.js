@@ -1,8 +1,10 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSearch, faBell } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="navbar bg-base-100 shadow-sm">
@@ -20,13 +22,31 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               <li>
-                <a>Homepage</a>
+                <a
+                  onClick={() => {
+                    navigate("/home");
+                  }}
+                >
+                  Home
+                </a>
               </li>
               <li>
-                <a>Portfolio</a>
+                <a
+                  onClick={() => {
+                    navigate("/restaurants");
+                  }}
+                >
+                  Restaurant
+                </a>
               </li>
               <li>
-                <a>About</a>
+                <a
+                  onClick={() => {
+                    navigate("/about");
+                  }}
+                >
+                  About
+                </a>
               </li>
             </ul>
           </div>
