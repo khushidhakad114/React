@@ -9,12 +9,15 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
 function AppLayout() {
   return (
-    <div className="App">
-      <div>
-        <Navbar />
+    <div
+      className="App"
+      style={{ display: "flex", flexDirection: "column", height: "100vh" }}
+    >
+      <Navbar />
+      <div className="flex-1 overflow-y-auto">
         <Outlet />
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 }

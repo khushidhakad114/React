@@ -1,15 +1,17 @@
 import React from "react";
-import Card from "./Card";
+import RestCard from "./RestCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Restaurant = () => {
   return (
-    <div className="restaurant flex flex-wrap gap-3 col-4 pt-5 py-5">
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
+    <div className="restaurant flex flex-wrap col-3 gap-20 mt-5 justify-center">
+      <RestCard />
+      <RestCard />
+      <RestCard />
+      <RestCard />
+      <RestCard />
+      <RestCard />
     </div>
   );
 };
