@@ -2,16 +2,29 @@ import React from "react";
 import RestCard from "./RestCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { SWIGGY_API } from "./utils/constants";
 
 const Restaurant = () => {
+  const [restaurants, setRestaurants] = useState([]);
+  useEffect(() => {
+    functionGetRestaurantData();
+  }, []);
+  const functionGetRestaurantData = async () => {
+    const response = await axios.get(SWIGGY_API);
+    console.log(
+      response.data.data.cards[4].card.card.gridElements.infoWithStyle
+        .restaurants
+    );
+    setRestaurants(
+      response.data.data.cards[4].card.card.gridElements.infoWithStyle
+        .restaurants
+    );
+  };
   return (
     <div className="restaurant flex flex-wrap col-3 gap-20 mt-5 justify-center">
-      <RestCard />
-      <RestCard />
-      <RestCard />
-      <RestCard />
-      <RestCard />
-      <RestCard />
+      {restaurants.map((res) => (
+        <RestCard key={res.id} restaurant={res} />
+      ))}
     </div>
   );
 };
