@@ -2,7 +2,7 @@ import React from "react";
 import { LOGO_URL } from "./utils/constants";
 
 const RestCard = ({ restaurant }) => {
-  const { name, cloudinaryImageId, address, rating, priceRange } =
+  const { name, cloudinaryImageId, areaName, avgRating, costForTwo } =
     restaurant.info;
   return (
     <div className="card bg-base-100 w-96 shadow-xl">
