@@ -3,6 +3,7 @@ import RestCard from "./RestCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { SWIGGY_API } from "./utils/constants";
+import Shimmer from "./Shimmer";
 
 const Restaurant = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -20,12 +21,21 @@ const Restaurant = () => {
         .restaurants
     );
   };
-  return (
-    <div className="restaurant flex flex-wrap col-3 gap-20 mt-5 justify-center">
-      {restaurants.map((res) => (
-        <RestCard key={res.id} restaurant={res} />
-      ))}
-    </div>
-  );
+  {
+    if (restaurants.length === 0) {
+      return (
+        <div>
+          <Shimmer />
+        </div>
+      );
+    }
+    return (
+      <div className="restaurant flex flex-wrap col-3 gap-20 mt-5 justify-center">
+        {restaurants.map((res) => (
+          <RestCard key={res.id} restaurant={res} />
+        ))}
+      </div>
+    );
+  }
 };
 export default Restaurant;
