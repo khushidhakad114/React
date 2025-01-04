@@ -1,7 +1,6 @@
 import React from "react";
 import { LOGO_URL } from "./utils/constants";
 import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 const RestCard = ({ restaurant }) => {
   const {
@@ -22,7 +21,7 @@ const RestCard = ({ restaurant }) => {
       <figure className="w-full h-48">
         <img
           className="w-full h-full object-cover"
-          src={`${LOGO_URL}${cloudinaryImageId}`}
+          src={LOGO_URL + cloudinaryImageId}
         />
       </figure>
       <div className="card-body">
