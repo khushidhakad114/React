@@ -1,6 +1,10 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faSearch, faBell } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faSearch,
+  faShoppingCart,
+} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -61,7 +65,7 @@ const Navbar = () => {
 
           <button className="btn btn-ghost btn-circle">
             <div className="indicator">
-              <FontAwesomeIcon icon={faBell} className="h-5 w-5" />
+              <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
               <span className="badge badge-xs badge-primary indicator-item"></span>
             </div>
           </button>
