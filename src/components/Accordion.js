@@ -26,7 +26,9 @@ const Accordion = () => {
               className={`transform transition-transform ${
                 activeIndex === index ? "rotate-180" : ""
               }`}
-            ></span>
+            >
+              {activeIndex === index ? "−" : "+"}
+            </span>
           </button>
           <div
             className={`overflow-hidden transition-all duration-300 ${
