@@ -24,7 +24,7 @@ const Restaurant = () => {
 
   const handleFilter = () => {
     if (!filterActive) {
-      const filtered = restaurants.filter((res) => res.info.avgRating >= 4);
+      const filtered = restaurants.filter((res) => res.info.avgRating >= 4.5);
       setFilteredRestaurants(filtered);
     } else {
       setFilteredRestaurants(restaurants);
