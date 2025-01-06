@@ -24,7 +24,7 @@ const Restaurant = () => {
 
   const handleFilter = () => {
     if (!filterActive) {
-      const filtered = restaurants.filter((res) => res.info.avgRating >= 4);
+      const filtered = restaurants.filter((res) => res.info.avgRating >= 4.5);
       setFilteredRestaurants(filtered);
     } else {
       setFilteredRestaurants(restaurants);
@@ -43,7 +43,7 @@ const Restaurant = () => {
           onClick={handleFilter}
           className="px-4 py-2 bg-blue-500 text-white rounded-lg"
         >
-          {filterActive ? "Show All" : "Rating 4+"}
+          {filterActive ? "Show All" : "Rating 4.5+"}
         </button>
       </div>
 
