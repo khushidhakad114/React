@@ -118,7 +118,7 @@ const Restaurant = () => {
       ) : (
         <div className="restaurant flex flex-wrap gap-20 mt-5 justify-center">
           {filteredRestaurants.map((res) => (
-            <RestCard key={res.id} restaurant={res} />
+            <RestCard key={res.info.id} restaurant={res} />
           ))}
         </div>
       )}
