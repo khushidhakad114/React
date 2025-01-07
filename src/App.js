@@ -5,8 +5,9 @@ import Login from "./components/Login";
 import Home from "./components/Home";
 import About from "./components/About";
 import Restaurant from "./components/Restaurant";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import FeedbackForm from "./components/FeedbackForm";
+import MenuRes from "./components/MenuRes";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
 function AppLayout() {
   return (

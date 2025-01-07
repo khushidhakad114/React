@@ -17,7 +17,7 @@ const FeedbackWithModal = () => {
 
         console.log("Feedback submitted:", { username, feedback });
 
-        // Show the modal after form submission
+
         document.getElementById("my_modal_4").showModal();
     };
 
@@ -53,7 +53,7 @@ const FeedbackWithModal = () => {
                 </form>
             </div>
 
-            {/* Modal Implementation */}
+
             <dialog id="my_modal_4" className="modal">
                 <div className="modal-box w-11/12 max-w-5xl">
                     <h3 className="font-bold text-lg">Thank you for your feedback!</h3>
