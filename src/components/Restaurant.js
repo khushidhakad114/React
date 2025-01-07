@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import RestCard from "./RestCard";
 import axios from "axios";
 import { SWIGGY_API } from "./utils/constants";
@@ -15,8 +16,10 @@ const Restaurant = () => {
     functionGetRestaurantData();
   }, []);
 
+
   const functionGetRestaurantData = async () => {
     const response = await axios.get(SWIGGY_API);
+    const filterRes =
     const filterRes =
       response.data.data.cards[4].card.card.gridElements.infoWithStyle
         .restaurants;
@@ -125,5 +128,6 @@ const Restaurant = () => {
     </div>
   );
 };
+
 
 export default Restaurant;
