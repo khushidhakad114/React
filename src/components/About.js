@@ -1,13 +1,20 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const About = () => {
+  const navigate = useNavigate();
+
+  const handleFeedback = () => {
+    navigate("/feedback");
+  };
+
   return (
     <div className="card card-side bg-base-200 shadow-2xl m-5 mt-5 p-5 w-3/4 h-96">
       <figure className="w-full h-full">
         <img
           className="w-full h-full object-cover"
           src="https://img.freepik.com/free-photo/top-view-lunch-setup-with-chicken-kebab-fries-tomato-soup-salad_140725-5157.jpg?ga=GA1.1.745777393.1725194479&semt=ais_hybrid"
-          alt="Movie"
+          alt="Restaurant"
         />
       </figure>
       <div className="card-body">
@@ -23,10 +30,13 @@ const About = () => {
           celebration, we strive to make every dining experience unforgettable.
         </p>
         <div className="card-actions justify-end">
-          <button className="btn btn-primary">Explore More</button>
+          <button onClick={handleFeedback} className="btn btn-primary">
+            Give Feedback!
+          </button>
         </div>
       </div>
     </div>
   );
 };
+
 export default About;
