@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import React, { useState, useEffect } from "react";
 import RestCard from "./RestCard";
 import axios from "axios";
 import { SWIGGY_API } from "./utils/constants";
@@ -16,10 +15,8 @@ const Restaurant = () => {
     functionGetRestaurantData();
   }, []);
 
-
   const functionGetRestaurantData = async () => {
     const response = await axios.get(SWIGGY_API);
-    const filterRes =
     const filterRes =
       response.data.data.cards[4].card.card.gridElements.infoWithStyle
         .restaurants;
@@ -48,8 +45,11 @@ const Restaurant = () => {
     const value = event.target.value;
     setSearchTerm(value);
 
-    const filtered = restaurants.filter((res) =>
-      res.info.name.toLowerCase().includes(value.toLowerCase())
+    const filtered = restaurants.filter(
+      (res) =>
+        res.info.name.toLowerCase().includes(value.toLowerCase()) ||
+        res.info.locality.toLowerCase().includes(value.toLowerCase()) ||
+        res.info.areaName.toLowerCase().includes(value.toLowerCase())
     );
 
     const finalFiltered =
@@ -128,6 +128,5 @@ const Restaurant = () => {
     </div>
   );
 };
-
 
 export default Restaurant;
