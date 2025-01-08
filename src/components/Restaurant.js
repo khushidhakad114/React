@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import RestCard from "./RestCard";
 import axios from "axios";
 import { SWIGGY_API } from "./utils/constants";
-import Shimmer from "./Shimmer";
+import LoadGif from "./GIFs/LoadGif";
+import NotFound from "./GIFs/NotFound";
 
 const Restaurant = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -61,13 +62,13 @@ const Restaurant = () => {
   };
 
   if (restaurants.length === 0) {
-    return <Shimmer />;
+    return <LoadGif />;
   }
 
   return (
     <div>
       <div className="flex justify-between mt-4 mb-8 px-7">
-        <div className="flex-1 mr-4 ml-[100px]">
+        <div className="flex-1 mr-4 ml-28">
           <label className="input input-bordered flex items-center gap-2 w-[550px] h-10">
             <input
               type="text"
@@ -91,9 +92,9 @@ const Restaurant = () => {
           </label>
         </div>
 
-        <div className="flex items-center gap-4 mr-[110px]">
+        <div className="flex items-center gap-4 mr-28">
           <select
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg"
             value={selectedRating}
             onChange={handleRatingChange}
           >
@@ -107,7 +108,7 @@ const Restaurant = () => {
 
           <button
             onClick={handleFilter}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg"
           >
             {filterActive ? "Show All" : "Apply Filter"}
           </button>
@@ -116,6 +117,7 @@ const Restaurant = () => {
 
       {filteredRestaurants.length === 0 ? (
         <div className="text-center text-xl text-red-500 mt-5">
+          <NotFound />
           No restaurants found.
         </div>
       ) : (

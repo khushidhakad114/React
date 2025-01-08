@@ -35,9 +35,7 @@ const Accordion = () => {
               activeIndex === index ? "max-h-screen" : "max-h-0"
             }`}
           >
-            <div className="p-4 text-gray-700">
-              {/* Content can be added here */}
-            </div>
+            <div className="p-4 text-gray-700"></div>
           </div>
         </div>
       ))}

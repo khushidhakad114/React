@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { MENU_API } from "./utils/constants";
 import { useEffect, useState } from "react";
 import MenuCard from "./MenuCard";
-import Shimmer from "./Shimmer";
+import LoadGif from "./GIFs/LoadGif";
 const MenuRes = () => {
   const [menu, setMenu] = useState([]);
   const [name, setName] = useState("");
@@ -31,7 +31,7 @@ const MenuRes = () => {
     if (name.length === 0) {
       return (
         <div>
-          <Shimmer />
+          <LoadGif />
         </div>
       );
     }
