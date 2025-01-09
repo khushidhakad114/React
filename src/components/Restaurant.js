@@ -69,7 +69,7 @@ const Restaurant = () => {
     <div>
       <div className="flex justify-between mt-4 mb-8 px-7">
         <div className="flex-1 mr-4 ml-28">
-          <label className="input input-bordered flex items-center gap-2 w-[550px] h-10">
+          <label className="input input-bordered flex items-center gap-2 w-3/4 h-10">
             <input
               type="text"
               className="grow p-2"
