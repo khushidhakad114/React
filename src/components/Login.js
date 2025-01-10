@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./utils/firebase";
 
 const Login = () => {
@@ -11,18 +12,24 @@ const Login = () => {
   const handleLogin = () => {
     setlogin(!login);
   };
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    try {
-      await createUserWithEmailAndPassword(
-        auth,
-        emailref,
-        passwordref,
-        usernameref
-      );
-      alert("Signup successful!");
-    } catch (err) {
-      console.log(err.message);
+  const handleSubmitButton = async (e) => {
+    const email = emailref.current.value;
+    const password = passwordref.current.value;
+    if (login) {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("Signup successful!");
+      } catch (err) {
+        console.log(err.message);
+      }
+    } else {
+      try {
+        const user = await signInWithEmailAndPassword(auth, email, password);
+        console.log(user);
+        alert("Login successful!");
+      } catch (err) {
+        console.log(err.message);
+      }
     }
   };
   return (
@@ -49,22 +56,24 @@ const Login = () => {
               ref={emailref}
             />
           </label>
-          <label className="input input-bordered flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="h-4 w-4 opacity-70"
-            >
-              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-            </svg>
-            <input
-              type="text"
-              className="grow"
-              placeholder="Username"
-              ref={usernameref}
-            />
-          </label>
+          {login && (
+            <label className="input input-bordered flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="h-4 w-4 opacity-70"
+              >
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+              </svg>
+              <input
+                type="text"
+                className="grow"
+                placeholder="Username"
+                ref={usernameref}
+              />
+            </label>
+          )}
           <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -86,8 +95,8 @@ const Login = () => {
             />
           </label>
           <div className="card-actions justify-center">
-            <button className="btn btn-primary" onClick={handleSignup}>
-              login
+            <button className="btn btn-primary" onClick={handleSubmitButton}>
+              {!login ? "Login" : "SignUp"}
             </button>
           </div>
           <div className="text-center cursor-pointer">
