@@ -3,32 +3,48 @@ import { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./utils/firebase";
+import { checkValidateData } from "./utils/checkValidateData";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const emailref = useRef();
   const passwordref = useRef();
+  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
   const usernameref = useRef();
   const [login, setlogin] = useState(false); //login =>false=> login , login => true=> signup
   const handleLogin = () => {
     setlogin(!login);
   };
   const handleSubmitButton = async (e) => {
+    const message = checkValidateData(
+      emailref.current.value, //if true
+      passwordref.current.value //if true
+    );
+    if (message) {
+      setMessage(message);
+      return;
+    }
     const email = emailref.current.value;
     const password = passwordref.current.value;
+    setMessage("");
     if (login) {
       try {
         await createUserWithEmailAndPassword(auth, email, password);
         alert("Signup successful!");
       } catch (err) {
         console.log(err.message);
+        setMessage(err.message);
       }
     } else {
       try {
         const user = await signInWithEmailAndPassword(auth, email, password);
         console.log(user);
         alert("Login successful!");
+        navigate("/restaurants");
       } catch (err) {
         console.log(err.message);
+        setMessage(err.message);
       }
     }
   };
@@ -100,9 +116,10 @@ const Login = () => {
             </button>
           </div>
           <div className="text-center cursor-pointer">
-            <p onClick={handleLogin}>
+            <span onClick={handleLogin}>
+              {message ? <p className="text-red-600">{message}</p> : null}
               {!login ? "Don't have an account?" : "Already have an account"}
-            </p>
+            </span>
           </div>
         </div>
       </div>
