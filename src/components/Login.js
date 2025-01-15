@@ -1,10 +1,16 @@
-import React, { useRef } from "react";
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./utils/firebase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { checkValidate } from "./utils/checkValidate";
 
 const Login = () => {
+  const [message, setMessage] = useState("");
+  const [eye, setEye] = useState(false);
+  const navigate = useNavigate();
   const emailref = useRef();
   const passwordref = useRef();
   const usernameref = useRef();
@@ -12,26 +18,40 @@ const Login = () => {
   const handleLogin = () => {
     setlogin(!login);
   };
-  const handleSubmitButton = async (e) => {
+
+  const handleSubmitButton = async () => {
     const email = emailref.current.value;
     const password = passwordref.current.value;
+    const message = checkValidate(
+      emailref.current.value,
+      passwordref.current.value
+    );
+    if (message) {
+      setMessage(message);
+      return;
+    }
+    setMessage("");
     if (login) {
       try {
         await createUserWithEmailAndPassword(auth, email, password);
         alert("Signup successful!");
       } catch (err) {
         console.log(err.message);
+        setMessage(err.message);
       }
     } else {
       try {
         const user = await signInWithEmailAndPassword(auth, email, password);
         console.log(user);
         alert("Login successful!");
+        navigate("/restaurants");
       } catch (err) {
         console.log(err.message);
+        setMessage(err.message);
       }
     }
   };
+
   return (
     <div className="flex justify-center items-center p-7">
       <div className="card bg-base-100 w-96 shadow-2xl">
@@ -88,11 +108,17 @@ const Login = () => {
               />
             </svg>
             <input
-              type="password"
+              type={eye ? "text" : "password"}
               className="grow"
               placeholder="Password"
               ref={passwordref}
             />
+            <button type="button" className="ml-2" onClick={() => setEye(!eye)}>
+              <FontAwesomeIcon
+                icon={eye ? faEyeSlash : faEye}
+                className="h-4 w-4 opacity-70"
+              />
+            </button>
           </label>
           <div className="card-actions justify-center">
             <button className="btn btn-primary" onClick={handleSubmitButton}>
@@ -100,9 +126,10 @@ const Login = () => {
             </button>
           </div>
           <div className="text-center cursor-pointer">
-            <p onClick={handleLogin}>
+            <span onClick={handleLogin}>
+              {message ? <p className="text-red-600">{message}</p> : null}
               {!login ? "Don't have an account?" : "Already have an account"}
-            </p>
+            </span>
           </div>
         </div>
       </div>
