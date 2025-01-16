@@ -30,12 +30,8 @@ const Router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       {
-        path: "/",
-        element: <Login />,
-      },
-      {
         path: "/home",
-        element: <Home />,
+        element: <Login />,
       },
       {
         path: "/about",
