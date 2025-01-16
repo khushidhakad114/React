@@ -9,7 +9,7 @@ import FeedbackForm from "./components/FeedbackForm";
 import MenuRes from "./components/MenuRes";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "./redux/store";
+import store from "./redux/store";
 
 function AppLayout() {
   return (
@@ -56,9 +56,11 @@ const Router = createBrowserRouter([
 ]);
 
 function App() {
-  <Provider store={store}>
-    return <RouterProvider router={Router}></RouterProvider>
-  </Provider>;
+  return (
+    <Provider store={store}>
+      <RouterProvider router={Router}></RouterProvider>
+    </Provider>
+  );
 }
 
 export default App;

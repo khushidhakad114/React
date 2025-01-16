@@ -5,13 +5,12 @@ export const user = createSlice({
   initialState: "guest",
   reducers: {
     loginAction: (state, action) => {
-      return action.payload;
+      state.user = action.payload;
     },
-    logout: (state) => {
-      return "guest";
+    logout: (state, action) => {
+      state.user = null;
     },
   },
 });
-
-export const { loginAction, logout } = user.actions;
 export default createSlice.reducer;
+export const { loginAction, logout } = user.actions;
