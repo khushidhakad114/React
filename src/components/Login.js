@@ -6,9 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { checkValidateEmailPswd } from "./utils/checkValidateEmailPswd";
+import { useDispatch } from "react-redux";
+import { loginFromRedux } from "../redux/userSlice";
 
 const Login = () => {
-  const [message, setmessage]=useState("");
+  const [message, setmessage] = useState("");
+  const dispatch = useDispatch();
   const [eye, setEye] = useState(false);
   const navigate = useNavigate();
   const emailref = useRef();
@@ -17,15 +20,15 @@ const Login = () => {
   const handleLogin = () => {
     setlogin(!login);
   };
-  
+
   const handleSubmitButton = async () => {
     const email = emailref.current.value;
     const password = passwordref.current.value;
 
     //passing email and password in chechvalid function
     const message = checkValidateEmailPswd(
-      emailref.current.value,// if it returns true
-      passwordref.current.value// if it returns true
+      emailref.current.value, // if it returns true
+      passwordref.current.value // if it returns true
     );
     if (message) {
       setmessage(message);
@@ -44,6 +47,8 @@ const Login = () => {
       try {
         const user = await signInWithEmailAndPassword(auth, email, password);
         console.log(user);
+        dispatch(loginFromRedux(user));
+
         alert("Login successful!");
 
         //after successful login user will navigate to returant page
@@ -123,7 +128,7 @@ const Login = () => {
           </div>
           <div className="text-center cursor-pointer">
             <span onClick={handleLogin}>
-              {message?<p className="text-red-600">{message}</p>:null} 
+              {message ? <p className="text-red-600">{message}</p> : null}
               {!login ? "Don't have an account?" : "Already have an account"}
             </span>
           </div>
@@ -134,6 +139,3 @@ const Login = () => {
 };
 
 export default Login;
-
-
-
