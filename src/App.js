@@ -8,6 +8,9 @@ import Restaurant from "./components/Restaurant";
 import FeedbackForm from "./components/FeedbackForm";
 import MenuRes from "./components/MenuRes";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
+
+import storeRedux from "./redux/store";
 
 function AppLayout() {
   return (
@@ -58,10 +61,11 @@ const Router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={Router}></RouterProvider>;
+  return (
+    <Provider store={storeRedux}>
+      <RouterProvider router={Router}></RouterProvider>;
+    </Provider>
+  );
 }
-<provider>
- 
-</provider>
 
 export default App;
