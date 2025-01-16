@@ -103,8 +103,6 @@ const Login = () => {
                 clipRule="evenodd"
               />
             </svg>
-
-            //using eye icon to hide and see the text
             <input
               type={eye ? "text" : "password"}
               className="grow"
