@@ -6,9 +6,12 @@ import {
   faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  // customhooks
+  // const userEmail = useSelector((state) => state.user.user.user.email);
   return (
     <>
       <div className="navbar bg-base-100 shadow-sm">
@@ -49,14 +52,16 @@ const Navbar = () => {
                     navigate("/about");
                   }}
                 >
-                  About
+                  about
                 </a>
               </li>
             </ul>
           </div>
         </div>
         <div className="navbar-center">
-          <a className="btn btn-ghost text-xl">Restaurant</a>
+          <a className="btn btn-ghost text-xl">
+            {/* welcome {userEmail ? userEmail : "Guest"} to our Restaurant{" "} */}
+          </a>
         </div>
         <div className="navbar-end">
           <button className="btn btn-ghost btn-circle">

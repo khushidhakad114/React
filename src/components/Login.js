@@ -5,10 +5,13 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./utils/firebase";
 import { checkValidateData } from "./utils/checkValidateData";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginAction } from "../redux/userSlice";
 
 const Login = () => {
   const emailref = useRef();
   const passwordref = useRef();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const usernameref = useRef();
@@ -40,6 +43,8 @@ const Login = () => {
       try {
         const user = await signInWithEmailAndPassword(auth, email, password);
         console.log(user);
+        dispatch(loginAction(user));
+
         alert("Login successful!");
         navigate("/restaurants");
       } catch (err) {

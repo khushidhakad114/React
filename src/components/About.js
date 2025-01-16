@@ -1,12 +1,18 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { loginAction, logout } from "../redux/userSlice";
 
 const About = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleFeedback = () => {
-    navigate("/feedback");
+    // dispatch(loginAction(""));
+    // navigate("/feedback");
+    dispatch(logout());
   };
+  // const userEmail = useSelector((state) => state.user.user.user.email);
 
   return (
     <div className="card card-side bg-base-200 shadow-2xl m-5 mt-5 p-5 w-3/4 h-96">
@@ -18,17 +24,7 @@ const About = () => {
         />
       </figure>
       <div className="card-body">
-        <p>
-          Welcome to [Restaurant Name], where culinary excellence meets a
-          passion for great food and memorable experiences. Located in the heart
-          of [City/Neighborhood], we are a family-owned restaurant dedicated to
-          serving fresh, high-quality dishes that bring people together. At
-          [Restaurant Name], we believe that every meal should be a celebration.
-          Our menu is a fusion of traditional flavors and innovative culinary
-          techniques, offering something for every taste. Whether you’re here
-          for a casual dinner with friends, a romantic evening, or a special
-          celebration, we strive to make every dining experience unforgettable.
-        </p>
+        {/* <p>{userEmail ? userEmail : "guest"}</p> */}
         <div className="card-actions justify-end">
           <button onClick={handleFeedback} className="btn btn-primary">
             Give Feedback!
