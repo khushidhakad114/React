@@ -1,24 +1,60 @@
-import React, { useRef } from "react";
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./utils/firebase";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { checkValidateEmailPswd } from "./utils/checkValidateEmailPswd";
 
 const Login = () => {
+  const [message, setmessage]=useState("");
+  const [eye, setEye] = useState(false);
+  const navigate = useNavigate();
   const emailref = useRef();
   const passwordref = useRef();
   const [login, setlogin] = useState(false); //login =>false=> login , login => true=> signup
   const handleLogin = () => {
     setlogin(!login);
   };
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    try {
-      await createUserWithEmailAndPassword(auth, emailref, passwordref);
-      alert("Signup successful!");
-    } catch (err) {
-      console.log(err.message);
+  
+  const handleSubmitButton = async () => {
+    const email = emailref.current.value;
+    const password = passwordref.current.value;
+
+    //passing email and password in chechvalid function
+    const message = checkValidateEmailPswd(
+      emailref.current.value,// if it returns true
+      passwordref.current.value// if it returns true
+    );
+    if (message) {
+      setmessage(message);
+      return;
+    }
+    setmessage("");
+    if (login) {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        alert("Signup successful!");
+      } catch (err) {
+        console.log(err.message);
+        setmessage(err.message);
+      }
+    } else {
+      try {
+        const user = await signInWithEmailAndPassword(auth, email, password);
+        console.log(user);
+        alert("Login successful!");
+
+        //after successful login user will navigate to returant page
+        navigate("/restaurants");
+      } catch (err) {
+        console.log(err.message);
+        setmessage(err.message);
+      }
     }
   };
+
   return (
     <div className="flex justify-center items-center p-7">
       <div className="card bg-base-100 w-96 shadow-2xl">
@@ -67,22 +103,31 @@ const Login = () => {
                 clipRule="evenodd"
               />
             </svg>
+
+            //using eye icon to hide and see the text
             <input
-              type="password"
+              type={eye ? "text" : "password"}
               className="grow"
               placeholder="Password"
               ref={passwordref}
             />
+            <button type="button" className="ml-2" onClick={() => setEye(!eye)}>
+              <FontAwesomeIcon
+                icon={eye ? faEyeSlash : faEye}
+                className="h-4 w-4 opacity-70"
+              />
+            </button>
           </label>
           <div className="card-actions justify-center">
-            <button className="btn btn-primary" onClick={handleSignup}>
+            <button className="btn btn-primary" onClick={handleSubmitButton}>
               login
             </button>
           </div>
           <div className="text-center cursor-pointer">
-            <p onClick={handleLogin}>
+            <span onClick={handleLogin}>
+              {message?<p className="text-red-600">{message}</p>:null} 
               {!login ? "Don't have an account?" : "Already have an account"}
-            </p>
+            </span>
           </div>
         </div>
       </div>
@@ -91,3 +136,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
+
