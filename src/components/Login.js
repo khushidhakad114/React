@@ -6,8 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { checkValidate } from "./utils/checkValidate";
+import { useDispatch } from "react-redux";
+import { loginAction } from "../redux/createSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [message, setMessage] = useState("");
   const [eye, setEye] = useState(false);
   const navigate = useNavigate();
@@ -44,6 +47,7 @@ const Login = () => {
         const user = await signInWithEmailAndPassword(auth, email, password);
         console.log(user);
         alert("Login successful!");
+        dispatch(loginAction(user));
         navigate("/restaurants");
       } catch (err) {
         console.log(err.message);

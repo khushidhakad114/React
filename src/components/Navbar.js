@@ -54,6 +54,15 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
+          <div className="btn btn-ghost text-xl">
+            <button
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login
+            </button>
+          </div>
         </div>
         <div className="navbar-center">
           <a className="btn btn-ghost text-xl">Restaurant</a>

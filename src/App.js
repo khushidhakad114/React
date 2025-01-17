@@ -10,6 +10,7 @@ import MenuRes from "./components/MenuRes";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import stores from "./redux/store";
 
 function AppLayout() {
   return (
@@ -33,7 +34,7 @@ const Router = createBrowserRouter([
     children: [
       {
         path: "/home",
-        element: <Login />,
+        element: <Home />,
       },
       {
         path: "/about",
@@ -51,13 +52,17 @@ const Router = createBrowserRouter([
         path: "/feedback",
         element: <FeedbackForm />,
       },
+      {
+        path: "/login",
+        element: <Login />,
+      },
     ],
   },
 ]);
 
 function App() {
   return (
-    <Provider store={store}>
+    <Provider store={stores}>
       <RouterProvider router={Router}></RouterProvider>
     </Provider>
   );
