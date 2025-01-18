@@ -6,8 +6,13 @@ import {
   faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/createSlice";
+import Restaurant from "./Restaurant";
 
 const Navbar = () => {
+  const username = useSelector((store) => store?.userSlice?.user?.username);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   return (
     <>
@@ -52,10 +57,21 @@ const Navbar = () => {
                   About
                 </a>
               </li>
+              <li>
+                <a
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/login");
+                  }}
+                >
+                  Logout
+                </a>
+              </li>
             </ul>
           </div>
           <div className="btn btn-ghost text-xl">
             <button
+              className="border border-black rounded-lg p-1"
               onClick={() => {
                 navigate("/login");
               }}
@@ -65,7 +81,9 @@ const Navbar = () => {
           </div>
         </div>
         <div className="navbar-center">
-          <a className="btn btn-ghost text-xl">Restaurant</a>
+          <a className="btn btn-ghost text-xl">
+            Welcome {username} to our Restaurant!
+          </a>
         </div>
         <div className="navbar-end">
           <button className="btn btn-ghost btn-circle">
