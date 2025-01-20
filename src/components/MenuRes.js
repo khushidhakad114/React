@@ -1,48 +1,46 @@
-import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { MENU_API } from "./utils/constants";
-import { useEffect, useState } from "react";
 import MenuCard from "./MenuCard";
 import LoadGif from "./GIFs/LoadGif";
+import useMenuData from "./Hooks/useMenuData";
+
 const MenuRes = () => {
+  const { id } = useParams();
+  const resInfo = useMenuData(id);
   const [menu, setMenu] = useState([]);
   const [name, setName] = useState("");
-  const { id } = useParams();
+
   useEffect(() => {
-    getMenuId();
-  }, [id]);
-  const getMenuId = async () => {
-    const data = await axios.get(MENU_API + id);
-    const categories =
-      data?.data?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
-    const filteredCategories = categories.filter((category) => {
-      return (
-        category?.card?.card?.itemCards &&
-        category?.card?.card?.itemCards.length > 0
-      );
-    });
-    setName(data?.data?.data?.cards[0]?.card?.card?.text);
-    console.log(data?.data?.data?.cards[0]?.card?.card?.text);
-    console.log(filteredCategories);
-    setMenu(filteredCategories);
-  };
-  {
-    if (name.length === 0) {
-      return (
-        <div>
-          <LoadGif />
-        </div>
-      );
+    if (resInfo) {
+      const categories =
+        resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
+      const filteredCategories = categories.filter((category) => {
+        return (
+          category?.card?.card?.itemCards &&
+          category?.card?.card?.itemCards.length > 0
+        );
+      });
+
+      setName(resInfo?.cards[0]?.card?.card?.text);
+      setMenu(filteredCategories);
     }
+  }, [resInfo]);
+
+  if (name.length === 0) {
     return (
-      <div className="restaurant flex flex-wrap col-3 gap-20 mt-5 justify-center">
-        {menu.map((res) => (
-          <MenuCard key={res.card.card.id} restaurant={res} />
-        ))}
+      <div>
+        <LoadGif />
       </div>
     );
   }
+
+  return (
+    <div className="restaurant flex flex-wrap col-3 gap-20 mt-5 justify-center">
+      {menu.map((res) => (
+        <MenuCard key={res.card.card.id} restaurant={res} />
+      ))}
+    </div>
+  );
 };
 
 export default MenuRes;

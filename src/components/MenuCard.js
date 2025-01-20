@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Accordion from "./Accordion";
 
-const MenuCard = ({ restaurant }) => {
+const MenuCard = ({ res }) => {
   return <Accordion />;
 };
 
