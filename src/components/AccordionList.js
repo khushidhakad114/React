@@ -18,18 +18,22 @@ const AccordionList = ({ items }) => {
     <div>
       {items.map((item) => (
         <div
-          key={item.card.info.id}
+          key={item?.card?.info?.id || Math.random()} // Fallback to a random key if id is undefined
           className="border-b border-gray-200 flex items-center p-4"
         >
           <div className="relative flex-shrink-0">
             <img
-              // src={LOGO_URL + item.card.info.imageId}
+              src={
+                item?.card?.info?.imageId
+                  ? `${LOGO_URL}${item.card.info.imageId}`
+                  : ""
+              }
               className="w-22 h-16 rounded-full mr-4"
-              alt={item.card.info.name}
+              alt={item?.card?.info?.name || "Product Image"}
             />
 
             <button
-              onClick={() => handleAddToCart(item.card.info)}
+              onClick={() => handleAddToCart(item?.card?.info)}
               className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-orange-300 text-white rounded-full w-8 h-8 flex items-center justify-center"
             >
               <svg
@@ -51,17 +55,22 @@ const AccordionList = ({ items }) => {
           <div className="flex-grow">
             <div className="flex items-center justify-between">
               <span className="font-semibold text-lg">
-                {item.card.info.name}
+                {item?.card?.info?.name || "Unknown Item"}
               </span>
               <span className="text-gray-600 font-semibold text-lg">
                 -₹{" "}
-                {item.card.info.price
+                {item?.card?.info?.price
                   ? item.card.info.price / 100
-                  : item.card.info.defaultPrice / 100 || 0}
+                  : item?.card?.info?.defaultPrice
+                  ? item.card.info.defaultPrice / 100
+                  : 0}
               </span>
             </div>
             <p className="text-sm text-gray-600 text-left">
-              {item.card.info.description}
+              {item?.card?.info?.description || "No description available."}
+            </p>
+            <p className="text-sm text-gray-600 text-left">
+              {item?.card?.card?.title || "No description available."}
             </p>
           </div>
         </div>

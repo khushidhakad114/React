@@ -12,17 +12,19 @@ const MenuRes = () => {
 
   useEffect(() => {
     if (resInfo) {
-      const rawCategories =
-        resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
-      const filteredCategories = rawCategories.filter((category) => {
-        return (
-          category?.card?.card?.itemCards &&
-          category?.card?.card?.itemCards.length > 0
+      const { itemCards } =
+        resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card
+          ?.card;
+
+      const categories =
+        resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+          (c) =>
+            c.card.card?.["@type"] ===
+            "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
         );
-      });
       setName(resInfo?.cards[0]?.card?.card?.text);
-      setCategories(filteredCategories);
-      console.log(filteredCategories, "Filtered Categories");
+      setCategories(categories);
+      console.log(categories, "Filtered Categories");
     }
   }, [resInfo]);
 
@@ -36,7 +38,7 @@ const MenuRes = () => {
 
   return (
     <div className="w-3/4 mx-auto mt-8">
-      <h1 className="text-2xl font-bold mb-5">{name}</h1>
+      <h1 className="text-2xl font-bold mb-5">{name || "Menu"}</h1>
       <AccordionList items={categories} />{" "}
     </div>
   );
