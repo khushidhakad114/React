@@ -8,6 +8,7 @@ const useMenuData = (id) => {
   useEffect(() => {
     const getMenuId = async () => {
       const data = await axios.get(MENU_API + id);
+      console.log(data, "Fetched Data");
       setResInfo(data?.data?.data);
     };
 

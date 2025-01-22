@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import MenuCard from "./MenuCard";
 import LoadGif from "./GIFs/LoadGif";
 import useMenuData from "./Hooks/useMenuData";
+import AccordionList from "./AccordionList";
 
 const MenuRes = () => {
   const { id } = useParams();
   const resInfo = useMenuData(id);
-  const [menu, setMenu] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
 
   useEffect(() => {
     if (resInfo) {
-      const categories =
+      const rawCategories =
         resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
-      const filteredCategories = categories.filter((category) => {
+      const filteredCategories = rawCategories.filter((category) => {
         return (
           category?.card?.card?.itemCards &&
           category?.card?.card?.itemCards.length > 0
         );
       });
-
       setName(resInfo?.cards[0]?.card?.card?.text);
-      setMenu(filteredCategories);
+      setCategories(filteredCategories);
+      console.log(filteredCategories, "Filtered Categories");
     }
   }, [resInfo]);
 
@@ -35,10 +35,9 @@ const MenuRes = () => {
   }
 
   return (
-    <div className="restaurant flex flex-wrap col-3 gap-20 mt-5 justify-center">
-      {menu.map((res) => (
-        <MenuCard key={res.card.card.id} restaurant={res} />
-      ))}
+    <div className="w-3/4 mx-auto mt-8">
+      <h1 className="text-2xl font-bold mb-5">{name}</h1>
+      <AccordionList items={categories} />{" "}
     </div>
   );
 };
