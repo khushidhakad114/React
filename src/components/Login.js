@@ -5,17 +5,17 @@ import { auth } from "./utils/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { checkValidateEmailPswd } from "./utils/checkValidateEmailPswd";
-import { useDispatch } from "react-redux";
+import { checkValidateEmailPswd, heckValidateEmailPswd } from "./utils/checkValidateEmailPswd";
+import { useDispatch, useSelector } from "react-redux";
 import { loginFromRedux } from "../redux/userSlice";
-
 const Login = () => {
-  const [message, setmessage] = useState("");
   const dispatch = useDispatch();
+  const [message, setMessage] = useState("");
   const [eye, setEye] = useState(false);
   const navigate = useNavigate();
   const emailref = useRef();
   const passwordref = useRef();
+  const usernameref = useRef();
   const [login, setlogin] = useState(false); //login =>false=> login , login => true=> signup
   const handleLogin = () => {
     setlogin(!login);
@@ -24,38 +24,39 @@ const Login = () => {
   const handleSubmitButton = async () => {
     const email = emailref.current.value;
     const password = passwordref.current.value;
-
-    //passing email and password in chechvalid function
+    const username = usernameref.current.value;
     const message = checkValidateEmailPswd(
-      emailref.current.value, // if it returns true
-      passwordref.current.value // if it returns true
+      emailref.current.value,
+      passwordref.current.value
     );
     if (message) {
-      setmessage(message);
+      setMessage(message);
       return;
     }
-    setmessage("");
+    setMessage("");
     if (login) {
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        await createUserWithEmailAndPassword(auth, email, password, username);
         alert("Signup successful!");
       } catch (err) {
         console.log(err.message);
-        setmessage(err.message);
+        setMessage(err.message);
       }
     } else {
       try {
-        const user = await signInWithEmailAndPassword(auth, email, password);
+        const user = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password,
+          username
+        );
         console.log(user);
-        dispatch(loginFromRedux(user));
-
         alert("Login successful!");
-
-        //after successful login user will navigate to returant page
+        dispatch(loginFromRedux({ email: user.user.email, username: username }));
         navigate("/restaurants");
       } catch (err) {
         console.log(err.message);
-        setmessage(err.message);
+        setMessage(err.message);
       }
     }
   };
@@ -93,7 +94,12 @@ const Login = () => {
             >
               <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
             </svg>
-            <input type="text" className="grow" placeholder="Username" />
+            <input
+              type="text"
+              className="grow"
+              placeholder="Username"
+              ref={usernameref}
+            />
           </label>
           <label className="input input-bordered flex items-center gap-2">
             <svg
@@ -123,7 +129,7 @@ const Login = () => {
           </label>
           <div className="card-actions justify-center">
             <button className="btn btn-primary" onClick={handleSubmitButton}>
-              login
+              {!login ? "Login" : "SignUp"}
             </button>
           </div>
           <div className="text-center cursor-pointer">

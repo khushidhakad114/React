@@ -9,7 +9,8 @@ import FeedbackForm from "./components/FeedbackForm";
 import MenuRes from "./components/MenuRes";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
-import reduxStore from "./redux/store";
+import store from "./redux/store";
+import stores from "./redux/store";
 
 function AppLayout() {
   return (
@@ -32,10 +33,6 @@ const Router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       {
-        path: "/",
-        element: <Login />,
-      },
-      {
         path: "/home",
         element: <Home />,
       },
@@ -55,14 +52,18 @@ const Router = createBrowserRouter([
         path: "/feedback",
         element: <FeedbackForm />,
       },
+      {
+        path: "/login",
+        element: <Login />,
+      },
     ],
   },
 ]);
 
 function App() {
   return (
-    <Provider store={reduxStore}>
-      <RouterProvider router={Router}></RouterProvider>;
+    <Provider store={stores}>
+      <RouterProvider router={Router}></RouterProvider>
     </Provider>
   );
 }
