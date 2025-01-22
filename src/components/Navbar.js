@@ -6,11 +6,14 @@ import {
   faShoppingCart,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/createSlice";
+import Restaurant from "./Restaurant";
 
 const Navbar = () => {
+  const username = useSelector((store) => store?.userSlice?.user?.username);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cartItems = useSelector((store) => store.cartSlice.items);
   return (
     <>
       <div className="navbar bg-base-100 shadow-sm">
@@ -51,15 +54,35 @@ const Navbar = () => {
                     navigate("/about");
                   }}
                 >
-                  about
+                  About
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => {
+                    dispatch(logout());
+                    navigate("/login");
+                  }}
+                >
+                  Logout
                 </a>
               </li>
             </ul>
           </div>
+          <div className="btn btn-ghost text-xl">
+            <button
+              className="border border-black rounded-lg p-1"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login
+            </button>
+          </div>
         </div>
         <div className="navbar-center">
           <a className="btn btn-ghost text-xl">
-            {/* welcome {userEmail ? userEmail : "Guest"} to our Restaurant{" "} */}
+            Welcome {username} to our Restaurant!
           </a>
         </div>
         <div className="navbar-end">
@@ -69,12 +92,7 @@ const Navbar = () => {
 
           <button className="btn btn-ghost btn-circle">
             <div className="indicator">
-              <FontAwesomeIcon
-                icon={faShoppingCart}
-                onClick={() => navigate("/cart")}
-                className="h-5 w-5"
-              />
-              <p>{cartItems.length}</p>
+              <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
               <span className="badge badge-xs badge-primary indicator-item"></span>
             </div>
           </button>

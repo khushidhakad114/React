@@ -9,6 +9,7 @@ import FeedbackForm from "./components/FeedbackForm";
 import MenuRes from "./components/MenuRes";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
+import store from "./redux/store";
 import stores from "./redux/store";
 
 function AppLayout() {

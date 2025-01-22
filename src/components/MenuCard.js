@@ -1,8 +1,8 @@
 import React from "react";
-import AccordionList from "./AccordionList";
+import Accordion from "./Accordion";
 
 const MenuCard = ({ res }) => {
-  return <AccordionList />;
+  return <Accordion />;
 };
 
 export default MenuCard;
