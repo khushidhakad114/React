@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import RestCard from "./RestCard";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import RestCard from "./RestCard";
+import ItemCard from "./ItemCard";
+import { addToCart } from "../redux/cartSlice";
 import { SWIGGY_API } from "./utils/constants";
 import LoadGif from "./GIFs/LoadGif";
 import NotFound from "./GIFs/NotFound";
@@ -8,21 +11,50 @@ import NotFound from "./GIFs/NotFound";
 const Restaurant = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
   const [selectedRating, setSelectedRating] = useState(0);
   const [filterActive, setFilterActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    functionGetRestaurantData();
+    fetchRestaurantData();
   }, []);
 
-  const functionGetRestaurantData = async () => {
-    const response = await axios.get(SWIGGY_API);
-    const filterRes =
-      response.data.data.cards[4].card.card.gridElements.infoWithStyle
-        .restaurants;
-    setRestaurants(filterRes);
-    setFilteredRestaurants(filterRes);
+  // Fetch restaurant data
+  const fetchRestaurantData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(SWIGGY_API);
+
+      // Handle dynamic response structure
+      const cards = response?.data?.data?.cards || [];
+      const restaurantCard = cards.find(
+        (card) => card.card?.card?.gridElements?.infoWithStyle?.restaurants
+      );
+      const menuCard = cards.find(
+        (card) => card.card?.card?.gridElements?.infoWithStyle?.menu
+      );
+
+      const restaurantsData =
+        restaurantCard?.card?.card?.gridElements?.infoWithStyle?.restaurants ||
+        [];
+      const menuData =
+        menuCard?.card?.card?.gridElements?.infoWithStyle?.menu || [];
+
+      setRestaurants(restaurantsData);
+      setFilteredRestaurants(restaurantsData);
+      setMenuItems(menuData);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching restaurant data:", error);
+      setIsLoading(false);
+    }
+  };
+
+  const handleAddToCart = (item) => {
+    dispatch(addToCart(item));
   };
 
   const handleFilter = () => {
@@ -61,7 +93,7 @@ const Restaurant = () => {
     setFilteredRestaurants(finalFiltered);
   };
 
-  if (restaurants.length === 0) {
+  if (isLoading) {
     return <LoadGif />;
   }
 
@@ -127,6 +159,22 @@ const Restaurant = () => {
           ))}
         </div>
       )}
+
+      {/* Render menu items */}
+      <div className="menu mt-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          Menu Items
+        </h2>
+        <div className="flex flex-wrap gap-10 justify-center">
+          {menuItems.length > 0 ? (
+            menuItems.map((item) => (
+              <ItemCard key={item.id} item={item} addToCart={handleAddToCart} />
+            ))
+          ) : (
+            <div>No menu items available.</div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

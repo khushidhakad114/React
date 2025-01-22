@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Accordion from "./Accordion";
+import AccordionList from "./AccordionList";
 
 const MenuCard = ({ restaurant }) => {
-  return <Accordion />;
+  return <AccordionList />;
 };
 
 export default MenuCard;
