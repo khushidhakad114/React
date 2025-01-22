@@ -5,7 +5,6 @@ import CartItem from "./CartItem";
 const Cart = () => {
   const itemInCart = useSelector((store) => store.cartSlice.items);
 
- 
   const consolidatedCart = itemInCart.reduce((acc, item) => {
     const existingItem = acc.find((i) => i.id === item.id);
     if (existingItem) {
@@ -17,7 +16,7 @@ const Cart = () => {
   }, []);
 
   if (consolidatedCart.length === 0) {
-    return <div>No items in cart</div>;
+    return <div>No items in cart</div>; // early return
   }
 
   return (

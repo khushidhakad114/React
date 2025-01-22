@@ -14,6 +14,11 @@ const Navbar = () => {
   const username = useSelector((store) => store?.userSlice?.user?.username);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const cartSliceLength = useSelector((store) => store.cartSlice.items.length);
+
+  const handleCart = () => {
+    navigate("/cart");
+  };
   return (
     <>
       <div className="navbar bg-base-100 shadow-sm">
@@ -92,8 +97,14 @@ const Navbar = () => {
 
           <button className="btn btn-ghost btn-circle">
             <div className="indicator">
-              <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
-              <span className="badge badge-xs badge-primary indicator-item"></span>
+              <FontAwesomeIcon
+                icon={faShoppingCart}
+                className="h-5 w-5"
+                onClick={handleCart}
+              />
+              <span className="badge badge-xs badge-primary indicator-item">
+                {cartSliceLength}
+              </span>
             </div>
           </button>
         </div>
