@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginOut } from "../redux/userSlice";
 
 const Navbar = () => {
-  const username = useSelector((store) => store?.userSlice?.user?.username);
+  const username = useSelector((store) => store?.user?.user?.username);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartSliceLength = useSelector((store) => store.cartSlice.items.length);
@@ -18,6 +18,7 @@ const Navbar = () => {
   const handleCart = () => {
     navigate("/cart");
   };
+
   return (
     <>
       <div className="navbar bg-base-100 shadow-sm">
@@ -75,7 +76,7 @@ const Navbar = () => {
           </div>
           <div className="btn btn-ghost text-xl">
             <button
-              className="text-white bg-indigo-600 border border-black rounded-lg p-1"
+              className="text-black border border-black rounded-lg p-1"
               onClick={() => {
                 navigate("/login");
               }}
@@ -85,9 +86,13 @@ const Navbar = () => {
           </div>
         </div>
         <div className="navbar-center">
-          <a className="btn btn-ghost text-xl">
-            Welcome {username} to our Kitchen!
-          </a>
+          {username ? (
+            <a className="btn btn-ghost text-xl">
+              Welcome, {username} to our Kitchen!
+            </a>
+          ) : (
+            <a className="btn btn-ghost text-xl">Welcome to our Kitchen!</a>
+          )}
         </div>
         <div className="navbar-end">
           <button className="btn btn-ghost btn-circle">

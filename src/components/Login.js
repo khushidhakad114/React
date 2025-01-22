@@ -8,8 +8,6 @@ import { checkValidateData } from "./utils/checkValidateData";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginAction } from "../redux/userSlice";
-
-// Import FontAwesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
@@ -20,10 +18,9 @@ const Login = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [login, setLogin] = useState(false); // login => false => login, login => true => signup
-  const [passwordVisible, setPasswordVisible] = useState(false); // For toggling password visibility
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
-  // Define usernameref only when signup mode
-  const usernameref = login ? useRef() : null;
+  const usernameref = useRef();
 
   const handleLogin = () => {
     setLogin(!login);
@@ -31,8 +28,8 @@ const Login = () => {
 
   const handleSubmitButton = async (e) => {
     const message = checkValidateData(
-      emailref.current.value, // if true
-      passwordref.current.value // if true
+      emailref.current.value,
+      passwordref.current.value
     );
     if (message) {
       setMessage(message);
@@ -119,14 +116,14 @@ const Login = () => {
               />
             </svg>
             <input
-              type={passwordVisible ? "text" : "password"} // Toggle password visibility
+              type={passwordVisible ? "text" : "password"}
               className="grow"
               placeholder="Password"
               ref={passwordref}
             />
             <FontAwesomeIcon
-              icon={passwordVisible ? faEye : faEyeSlash} // Conditionally show eye icon
-              onClick={() => setPasswordVisible(!passwordVisible)} // Toggle password visibility
+              icon={passwordVisible ? faEye : faEyeSlash}
+              onClick={() => setPasswordVisible(!passwordVisible)}
               className="cursor-pointer text-gray-500 ml-2"
             />
           </label>
