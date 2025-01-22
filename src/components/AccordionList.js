@@ -3,7 +3,7 @@ import ItemCard from "./ItemCard";
 import { addToCart } from "../redux/cartSlice";
 
 
-const AccordionList = ({ categories, addToCart}) => {
+const AccordionList = ({ categories}) => {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const toggleAccordion = (index) => {
