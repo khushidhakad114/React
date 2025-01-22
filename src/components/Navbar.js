@@ -8,7 +8,6 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginOut } from "../redux/userSlice";
-import Restaurant from "./Restaurant";
 
 const Navbar = () => {
   const username = useSelector((store) => store?.userSlice?.user?.username);

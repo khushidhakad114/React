@@ -1,42 +1,49 @@
 import React, { useRef, useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "./utils/firebase";
+import { checkValidateData } from "./utils/checkValidateData";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginAction } from "../redux/userSlice";
+
+// Import FontAwesome icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
-import { checkValidateEmailPswd, heckValidateEmailPswd } from "./utils/checkValidateEmailPswd";
-import { useDispatch, useSelector } from "react-redux";
-import { loginFromRedux } from "../redux/userSlice";
+
 const Login = () => {
-  const dispatch = useDispatch();
-  const [message, setMessage] = useState("");
-  const [eye, setEye] = useState(false);
-  const navigate = useNavigate();
   const emailref = useRef();
   const passwordref = useRef();
-  const usernameref = useRef();
-  const [login, setlogin] = useState(false); //login =>false=> login , login => true=> signup
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  const [login, setLogin] = useState(false); // login => false => login, login => true => signup
+  const [passwordVisible, setPasswordVisible] = useState(false); // For toggling password visibility
+
+  // Define usernameref only when signup mode
+  const usernameref = login ? useRef() : null;
+
   const handleLogin = () => {
-    setlogin(!login);
+    setLogin(!login);
   };
 
-  const handleSubmitButton = async () => {
-    const email = emailref.current.value;
-    const password = passwordref.current.value;
-    const username = usernameref.current.value;
-    const message = checkValidateEmailPswd(
-      emailref.current.value,
-      passwordref.current.value
+  const handleSubmitButton = async (e) => {
+    const message = checkValidateData(
+      emailref.current.value, // if true
+      passwordref.current.value // if true
     );
     if (message) {
       setMessage(message);
       return;
     }
+    const email = emailref.current.value;
+    const password = passwordref.current.value;
     setMessage("");
     if (login) {
       try {
-        await createUserWithEmailAndPassword(auth, email, password, username);
+        await createUserWithEmailAndPassword(auth, email, password);
         alert("Signup successful!");
       } catch (err) {
         console.log(err.message);
@@ -44,15 +51,10 @@ const Login = () => {
       }
     } else {
       try {
-        const user = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password,
-          username
-        );
+        const user = await signInWithEmailAndPassword(auth, email, password);
         console.log(user);
+        dispatch(loginAction(user));
         alert("Login successful!");
-        dispatch(loginFromRedux({ email: user.user.email, username: username }));
         navigate("/restaurants");
       } catch (err) {
         console.log(err.message);
@@ -85,22 +87,24 @@ const Login = () => {
               ref={emailref}
             />
           </label>
-          <label className="input input-bordered flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="h-4 w-4 opacity-70"
-            >
-              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-            </svg>
-            <input
-              type="text"
-              className="grow"
-              placeholder="Username"
-              ref={usernameref}
-            />
-          </label>
+          {login && (
+            <label className="input input-bordered flex items-center gap-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="h-4 w-4 opacity-70"
+              >
+                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+              </svg>
+              <input
+                type="text"
+                className="grow"
+                placeholder="Username"
+                ref={usernameref}
+              />
+            </label>
+          )}
           <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -115,17 +119,16 @@ const Login = () => {
               />
             </svg>
             <input
-              type={eye ? "text" : "password"}
+              type={passwordVisible ? "text" : "password"} // Toggle password visibility
               className="grow"
               placeholder="Password"
               ref={passwordref}
             />
-            <button type="button" className="ml-2" onClick={() => setEye(!eye)}>
-              <FontAwesomeIcon
-                icon={eye ? faEyeSlash : faEye}
-                className="h-4 w-4 opacity-70"
-              />
-            </button>
+            <FontAwesomeIcon
+              icon={passwordVisible ? faEye : faEyeSlash} // Conditionally show eye icon
+              onClick={() => setPasswordVisible(!passwordVisible)} // Toggle password visibility
+              className="cursor-pointer text-gray-500 ml-2"
+            />
           </label>
           <div className="card-actions justify-center">
             <button className="btn btn-primary" onClick={handleSubmitButton}>
