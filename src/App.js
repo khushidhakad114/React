@@ -10,6 +10,7 @@ import MenuRes from "./components/MenuRes";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import reduxStore from "./redux/store";
+import Cart from "./components/Cart";
 
 function AppLayout() {
   return (
@@ -54,6 +55,10 @@ const Router = createBrowserRouter([
       {
         path: "/feedback",
         element: <FeedbackForm />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
   },

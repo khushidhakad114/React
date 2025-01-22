@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const cartItems = useSelector((store) => store.cartSlice.items);
   // customhooks
   // const userEmail = useSelector((state) => state.user.user.user.email);
   return (
@@ -70,7 +71,12 @@ const Navbar = () => {
 
           <button className="btn btn-ghost btn-circle">
             <div className="indicator">
-              <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
+              <FontAwesomeIcon
+                icon={faShoppingCart}
+                onClick={() => navigate("/cart")}
+                className="h-5 w-5"
+              />
+              <p>{cartItems.length}</p>
               <span className="badge badge-xs badge-primary indicator-item"></span>
             </div>
           </button>

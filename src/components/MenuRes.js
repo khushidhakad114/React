@@ -1,48 +1,47 @@
-import axios from "axios";
-import React from "react";
+import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
-import { MENU_API } from "./utils/constants";
-import { useEffect, useState } from "react";
-import MenuCard from "./MenuCard";
-import LoadGif from "./GIFs/LoadGif";
-const MenuRes = () => {
-  const [menu, setMenu] = useState([]);
-  const [name, setName] = useState("");
+
+import { useState } from "react";
+import useRestaurantMenu from "./utils/hooks/useRestaurantMenu";
+import RestaurantCategory from "./RestaurantCatogory";
+
+const RestaurantMenu = () => {
   const { id } = useParams();
-  useEffect(() => {
-    getMenuId();
-  }, [id]);
-  const getMenuId = async () => {
-    const data = await axios.get(MENU_API + id);
-    const categories =
-      data?.data?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
-    const filteredCategories = categories.filter((category) => {
-      return (
-        category?.card?.card?.itemCards &&
-        category?.card?.card?.itemCards.length > 0
-      );
-    });
-    setName(data?.data?.data?.cards[0]?.card?.card?.text);
-    console.log(data?.data?.data?.cards[0]?.card?.card?.text);
-    console.log(filteredCategories);
-    setMenu(filteredCategories);
-  };
-  {
-    if (name.length === 0) {
-      return (
-        <div>
-          <LoadGif />
-        </div>
-      );
-    }
-    return (
-      <div className="restaurant flex flex-wrap col-3 gap-20 mt-5 justify-center">
-        {menu.map((res) => (
-          <MenuCard key={res.card.card.id} restaurant={res} />
-        ))}
-      </div>
+  console.log(id, " res id");
+
+  const dummy = "Dummy Data";
+
+  const resInfo = useRestaurantMenu(id);
+
+  const [showIndex, setShowIndex] = useState(null);
+
+  if (resInfo === null) return <Shimmer />;
+
+  const { itemCards } =
+    resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card;
+
+  const categories =
+    resInfo?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (c) =>
+        c.card.card?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
     );
-  }
+  console.log("main", categories);
+
+  return (
+    <div className="text-center">
+      <h1 className="font-bold my-6">
+        {resInfo?.cards[2]?.card?.card?.info?.name}
+      </h1>
+      <h3 className="font-bold text-lg">
+        {resInfo?.cards[2]?.card?.card?.info.cuisines.join(", ")} -{" "}
+        {resInfo?.cards[2]?.card?.card?.info.costForTwoMessage}
+      </h3>
+      {categories.map((category) => (
+        <RestaurantCategory accordianData={category?.card?.card} />
+      ))}
+    </div>
+  );
 };
 
-export default MenuRes;
+export default RestaurantMenu;
