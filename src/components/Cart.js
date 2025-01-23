@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import CartItem from "./CartItem";
+import NotFound from "./GIFs/NotFound";
 
 const Cart = () => {
   const itemInCart = useSelector((store) => store.cartSlice.items);
@@ -16,7 +17,12 @@ const Cart = () => {
   }, []);
 
   if (consolidatedCart.length === 0) {
-    return <div>No items in cart</div>; // early return
+    return (
+      <div className="text-center text-xl text-red-500 mt-5">
+        <NotFound />
+        No items in cart
+      </div>
+    ); // early return
   }
 
   return (

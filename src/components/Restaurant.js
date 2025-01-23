@@ -22,13 +22,11 @@ const Restaurant = () => {
     fetchRestaurantData();
   }, []);
 
-  // Fetch restaurant data
   const fetchRestaurantData = async () => {
     try {
       setIsLoading(true);
       const response = await axios.get(SWIGGY_API);
 
-      // Handle dynamic response structure
       const cards = response?.data?.data?.cards || [];
       const restaurantCard = cards.find(
         (card) => card.card?.card?.gridElements?.infoWithStyle?.restaurants
@@ -160,19 +158,11 @@ const Restaurant = () => {
         </div>
       )}
 
-      {/* Render menu items */}
       <div className="menu mt-8">
-        <h2 className="text-2xl font-semibold mb-4 text-center">
-          Menu Items
-        </h2>
         <div className="flex flex-wrap gap-10 justify-center">
-          {menuItems.length > 0 ? (
-            menuItems.map((item) => (
-              <ItemCard key={item.id} item={item} addToCart={handleAddToCart} />
-            ))
-          ) : (
-            <div>No menu items available.</div>
-          )}
+          {menuItems.map((item) => (
+            <ItemCard key={item.id} item={item} addToCart={handleAddToCart} />
+          ))}
         </div>
       </div>
     </div>

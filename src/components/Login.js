@@ -14,19 +14,21 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 const Login = () => {
   const emailref = useRef();
   const passwordref = useRef();
+  const usernameref = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [login, setLogin] = useState(false); // login => false => login, login => true => signup
   const [passwordVisible, setPasswordVisible] = useState(false);
 
-  const usernameref = useRef();
-
   const handleLogin = () => {
     setLogin(!login);
   };
 
   const handleSubmitButton = async (e) => {
+    const email = emailref.current.value;
+    const password = passwordref.current.value;
+    const username = usernameref.current.value;
     const message = checkValidateData(
       emailref.current.value,
       passwordref.current.value
@@ -35,12 +37,10 @@ const Login = () => {
       setMessage(message);
       return;
     }
-    const email = emailref.current.value;
-    const password = passwordref.current.value;
     setMessage("");
     if (login) {
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        await createUserWithEmailAndPassword(auth, email, password, username);
         alert("Signup successful!");
       } catch (err) {
         console.log(err.message);
@@ -48,9 +48,14 @@ const Login = () => {
       }
     } else {
       try {
-        const user = await signInWithEmailAndPassword(auth, email, password);
+        const user = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password,
+          username
+        );
         console.log(user);
-        dispatch(loginAction(user));
+        dispatch(loginAction({ email: user.user.email, username: username }));
         alert("Login successful!");
         navigate("/restaurants");
       } catch (err) {
@@ -84,24 +89,22 @@ const Login = () => {
               ref={emailref}
             />
           </label>
-          {login && (
-            <label className="input input-bordered flex items-center gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-                className="h-4 w-4 opacity-70"
-              >
-                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-              </svg>
-              <input
-                type="text"
-                className="grow"
-                placeholder="Username"
-                ref={usernameref}
-              />
-            </label>
-          )}
+          <label className="input input-bordered flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className="h-4 w-4 opacity-70"
+            >
+              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+            </svg>
+            <input
+              type="text"
+              className="grow"
+              placeholder="Username"
+              ref={usernameref}
+            />
+          </label>
           <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"

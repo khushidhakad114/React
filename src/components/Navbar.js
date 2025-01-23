@@ -8,9 +8,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginOut } from "../redux/userSlice";
+import Restaurant from "./Restaurant";
 
 const Navbar = () => {
-  const username = useSelector((store) => store?.user?.user?.username);
+  const username = useSelector((store) => store?.userSlice?.user?.username);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartSliceLength = useSelector((store) => store.cartSlice.items.length);
@@ -18,7 +19,6 @@ const Navbar = () => {
   const handleCart = () => {
     navigate("/cart");
   };
-
   return (
     <>
       <div className="navbar bg-base-100 shadow-sm">
@@ -86,13 +86,9 @@ const Navbar = () => {
           </div>
         </div>
         <div className="navbar-center">
-          {username ? (
-            <a className="btn btn-ghost text-xl">
-              Welcome, {username} to our Kitchen!
-            </a>
-          ) : (
-            <a className="btn btn-ghost text-xl">Welcome to our Kitchen!</a>
-          )}
+          <a className="btn btn-ghost text-xl">
+            Welcome {username} to our Restaurant!
+          </a>
         </div>
         <div className="navbar-end">
           <button className="btn btn-ghost btn-circle">
