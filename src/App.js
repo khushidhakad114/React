@@ -11,6 +11,8 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import stores from "./redux/store";
 import Cart from "./components/Cart";
+import BackForwardButton from "./components/BackForwardButton";
+
 
 function AppLayout() {
   return (
@@ -19,6 +21,7 @@ function AppLayout() {
       style={{ display: "flex", flexDirection: "column", height: "100vh" }}
     >
       <Navbar />
+      <BackForwardButton />
       <div className="flex-1 overflow-y-auto">
         <Outlet />
       </div>
@@ -34,7 +37,7 @@ const Router = createBrowserRouter([
     children: [
       {
         path: "/home",
-        element: <Home />,
+        element: <Login />,
       },
       {
         path: "/about",
