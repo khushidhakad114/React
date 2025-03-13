@@ -25,6 +25,7 @@ const Login = () => {
     const email = emailref.current.value;
     const password = passwordref.current.value;
     const username = usernameref.current.value;
+    
     const message = checkValidateEmailPswd(
       emailref.current.value,
       passwordref.current.value
